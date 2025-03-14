@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "_id": "prod_1689348800",
+      "name": "Wireless Bluetooth Earbuds",
+      "businessId": "biz_1689348769",
+      "sku": "PRD001",
+      "category": "Electronics",
+      "price": 79.99,
+      "stock": 100,
+      "status": "active",
+      "createdAt": "2023-07-14T10:46:00.324Z",
+      "updatedAt": "2023-07-14T10:46:00.324Z"
+    },
+    {
+      "_id": "prod_1689348801",
+      "name": "Premium Cotton T-Shirt",
+      "businessId": "biz_1689348769",
+      "sku": "PRD002",
+      "category": "Clothing",
+      "price": 29.99,
+      "stock": 200,
+      "status": "active",
+      "createdAt": "2023-07-14T10:46:10.324Z",
+      "updatedAt": "2023-07-14T10:46:10.324Z"
+    },
+    {
+      "_id": "prod_1689348802",
+      "name": "Kitchen Knife Set",
+      "businessId": "biz_1689348769",
+      "sku": "PRD003",
+      "category": "Home & Kitchen",
+      "price": 49.99,
+      "stock": 0,
+      "status": "out_of_stock",
+      "createdAt": "2023-07-14T10:46:20.324Z",
+      "updatedAt": "2023-07-14T10:46:20.324Z"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "_id": "usr_1689348762",
+      "name": "Admin User",
+      "email": "admin@tracklead.com",
+      "password": "admin123",
+      "role": "admin",
+      "active": true,
+      "createdAt": "2023-07-14T10:45:23.156Z",
+      "updatedAt": "2023-07-14T10:45:23.156Z"
+    },
+    {
+      "_id": "use_1741937496339_43c1fdeb",
+      "name": "saas asds",
+      "email": "qqqwqweq@gmail.com",
+      "password": "asdasdasdWW22",
+      "role": "user",
+      "active": true,
+      "createdAt": "2025-03-14T07:31:36.339Z",
+      "updatedAt": "2025-03-14T07:31:36.339Z"
+    },
+    {
+      "_id": "use_1741938534794_a9a3b754",
+      "name": "asdasdas sdasd",
+      "email": "paulobraune11@gmail.com",
+      "password": "Pauloat1!",
+      "role": "user",
+      "active": true,
+      "createdAt": "2025-03-14T07:48:54.794Z",
+      "updatedAt": "2025-03-14T07:48:54.794Z"
+    }
+  ]
+}

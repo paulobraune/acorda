@@ -1,0 +1,495 @@
+/* Language Modal */
+.language-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1060;
+    align-items: center;
+    justify-content: center;
+    animation: modal-fade 0.2s ease;
+  }
+  
+  .language-modal.show {
+    display: flex;
+  }
+  
+  .language-modal-content {
+    background-color: var(--surface);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 20rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+    animation: modal-slide-up 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .language-modal-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .language-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  
+  .language-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .language-modal-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  .language-modal-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    background-color: var(--surface-accent);
+    position: relative;
+  }
+  
+  .language-modal-option:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary);
+  }
+  
+  .language-modal-option.active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+  }
+  
+  .language-modal-option span {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .language-modal-option .lang-name-native {
+    font-weight: 500;
+  }
+
+  .language-modal-option .lang-name-english {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    font-weight: 400;
+  }
+
+  .language-modal-option.active .lang-name-english {
+    opacity: 0.9;
+  }
+  
+  /* Custom Language Selector */
+  .custom-language-selector {
+    position: relative;
+    user-select: none;
+  }
+  
+  .selected-language {
+    background-color: var(--surface-hover);
+    border: 0.0625rem solid var(--border);
+    color: var(--text-primary);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+  }
+  
+  .selected-language:hover {
+    background-color: var(--surface-accent);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* Business Selector Styles */
+  .selected-business {
+    background-color: var(--surface-hover);
+    border: 0.0625rem solid var(--border);
+    color: var(--text-primary);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+  }
+  
+  .selected-business:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary);
+  }
+
+  .business-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .business-icon i {
+    font-size: 0.8rem;
+  }
+  
+  .language-option.active {
+    background-color: var(--primary);
+  }
+  
+  /* Theme Toggle */
+  .theme-toggle {
+    background-color: var(--surface-hover);
+    border: 0.0625rem solid var(--border);
+    color: var(--text-primary);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2rem;
+    min-width: 2rem;
+  }
+  
+  .theme-toggle:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary);
+  }
+  
+  .theme-toggle i {
+    font-size: 1rem;
+  }
+  
+  /* Flags */
+  .flag {
+    width: 1rem;
+    height: 0.75rem;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.125rem;
+    flex-shrink: 0;
+  }
+  
+  .uk-flag {
+    background-image: url("/locales/flags/en.svg");
+  }
+  
+  .br-flag {
+    background-image: url("/locales/flags/pt-BR.svg");
+  }
+
+  .fr-flag {
+    background-image: url("/locales/flags/fr.svg");
+  }
+
+  .es-flag {
+    background-image: url("/locales/flags/es.svg");
+  }
+
+  .it-flag {
+    background-image: url("/locales/flags/it.svg");
+  }
+
+  .de-flag {
+    background-image: url("/locales/flags/de.svg");
+  }
+  
+  /* Keyframes para modais */
+  @keyframes modal-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes modal-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* RTL Support */
+  [dir="rtl"] .language-modal-option {
+    flex-direction: row-reverse;
+  }
+
+  [dir="rtl"] .selected-language {
+    flex-direction: row-reverse;
+  }
+  
+  /* Business selector specific styles */
+  .business-search-wrapper {
+    margin-bottom: 0.75rem;
+  }
+  
+  .business-search-wrapper .input-group {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .business-search-wrapper .input-group-text {
+    background-color: var(--surface-input);
+    border-color: var(--border);
+    color: var(--text-secondary);
+  }
+  
+  .business-search-wrapper .form-control {
+    background-color: var(--surface-input);
+    border-color: var(--border);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+  }
+  
+  .business-search-wrapper .form-control:focus {
+    background-color: var(--surface-input-focus);
+    border-color: var(--border);
+    color: var(--text-primary);
+    box-shadow: none;
+    outline: none;
+  }
+  
+  /* Business option styles */
+  .business-id {
+    font-family: monospace;
+    font-size: 0.7rem;
+    opacity: 0.8;
+    margin-top: 0.125rem;
+  }
+  
+  .business-role {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  
+  .business-role.owner {
+    color: #F59E0B;
+  }
+  
+  .business-role.admin {
+    color: var(--text-secondary);
+  }
+  
+  .business-role i {
+    font-size: 0.8rem;
+  }
+  
+  .business-role small {
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  
+  /* Active business styling */
+  .language-modal-option.active .business-id {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .language-modal-option.active .business-role {
+    color: white;
+  }
+  
+  /* No results message */
+  #no-businesses-results {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    padding: 1.5rem 0;
+  }
+
+  /* Profile Styles */
+  .profile-avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .profile-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    background-color: var(--surface-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 2rem;
+    border: 2px solid var(--primary);
+  }
+  
+  .profile-name {
+    text-align: center;
+  }
+  
+  .profile-name h6 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .profile-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .profile-detail-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  
+  .profile-detail-value {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    word-break: break-all;
+  }
+  
+  .profile-user-id {
+    font-family: monospace;
+    font-size: 0.8rem;
+    opacity: 0.9;
+  }
+
+  /* Theme Modal Styles */
+  .theme-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  /* Default theme icons (for light mode) */
+  .theme-icon.dark {
+    background-color: #2a2a2a;
+    color: #ffffff;
+  }
+
+  .theme-icon.light {
+    background-color: #f5f5f5;
+    color: #333333;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* Dark theme overrides for theme icons */
+  [data-theme="dark"] .theme-icon.light {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border-color: #444444;
+  }
+  
+  [data-theme="dark"] .theme-icon.dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #333333;
+  }
+
+  /* Fix dark mode styling for theme modal */
+  [data-theme="dark"] .language-modal-content {
+    background-color: var(--surface);
+    border-color: var(--border);
+  }
+
+  [data-theme="dark"] .language-modal-title {
+    color: var(--text-primary);
+  }
+
+  [data-theme="dark"] .language-modal-option {
+    background-color: var(--surface-accent);
+    border-color: var(--border);
+  }
+
+  [data-theme="dark"] .language-modal-option:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary);
+  }
+
+  [data-theme="dark"] .language-modal-option .lang-name-native,
+  [data-theme="dark"] .language-modal-option .lang-name-english {
+    color: var(--text-primary);
+  }
+
+  [data-theme="dark"] .language-modal-option.active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  [data-theme="dark"] .language-modal-option.active .lang-name-native,
+  [data-theme="dark"] .language-modal-option.active .lang-name-english {
+    color: white;
+  }
+
+  /* Theme modal option styling should match business modal */
+  #theme-modal .language-modal-option {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    background-color: var(--surface-accent);
+    transition: var(--transition);
+  }
+
+  #theme-modal .language-modal-option:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary);
+  }
+
+  #theme-modal .language-modal-option.active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  #theme-modal .language-modal-option .lang-name-native {
+    color: var(--text-primary);
+  }
+
+  #theme-modal .language-modal-option.active .lang-name-native {
+    color: white;
+  }

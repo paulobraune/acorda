@@ -1,0 +1,180 @@
+/* Chart styles */
+.apexcharts-tooltip {
+  background-color: var(--surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 0.25rem 0.5rem var(--shadow) !important;
+}
+
+.apexcharts-tooltip-title {
+  background-color: var(--surface-hover) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+.apexcharts-xaxistooltip,
+.apexcharts-yaxistooltip {
+  background-color: var(--surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: var(--border) !important;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: var(--border) !important;
+}
+
+.apexcharts-legend-text {
+  color: var(--text-primary) !important;
+}
+
+.apexcharts-legend-marker {
+  margin-right: 5px;
+}
+
+/* Custom chart card styles */
+.chart-card {
+  background-color: var(--surface);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  box-shadow: 0 2px 4px var(--shadow);
+  overflow: hidden;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 8px var(--shadow);
+  transform: translateY(-2px);
+}
+
+.chart-card .card-header {
+  border-bottom-color: var(--border);
+  background-color: var(--surface);
+  padding: 1rem 1.25rem;
+}
+
+.chart-card .card-body {
+  padding: 1.25rem;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* Period buttons */
+.chart-period-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-color: var(--border);
+}
+
+.chart-period-buttons .btn.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* Chart legend styles */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.chart-legend-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* Analytics cards with icons */
+.analytics-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.analytics-card-icon i {
+  font-size: 1.25rem;
+}
+
+/* Sparkline charts in card */
+.sparkline {
+  width: 100%;
+  height: 30px;
+  margin-top: 0.5rem;
+}
+
+.sparkline path {
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Chart specific customizations */
+#totalProfitChart {
+  max-height: 250px;
+}
+
+#salesReportChart,
+#promotionalSalesChart {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chart-container {
+    height: 250px;
+  }
+  
+  .chart-card .card-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .chart-card .card-body {
+    padding: 1rem;
+  }
+  
+  .chart-legend {
+    margin-top: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container {
+    height: 200px;
+  }
+  
+  .chart-period-buttons .btn {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .analytics-card-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .analytics-card-icon i {
+    font-size: 1rem;
+  }
+}

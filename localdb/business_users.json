@@ -1,0 +1,13 @@
+{
+  "business_users": [
+    {
+      "_id": "bus_1741940335229_36bf149c",
+      "userId": "usr_1689348762",
+      "businessId": "bus_1741940335204_11674336",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2025-03-14T08:18:55.229Z",
+      "updatedAt": "2025-03-14T08:18:55.229Z"
+    }
+  ]
+}

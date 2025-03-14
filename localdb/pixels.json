@@ -1,0 +1,24 @@
+{
+  "pixels": [
+    {
+      "_id": "pix_1741935801587_a5d14219",
+      "type": "google",
+      "name": "sdfsdfs",
+      "id": "3453453453534",
+      "businessId": "biz_1689348769",
+      "active": true,
+      "createdAt": "2025-03-14T07:03:21.587Z",
+      "updatedAt": "2025-03-14T07:03:21.587Z"
+    },
+    {
+      "_id": "pix_1741938601068_5e6c3cfc",
+      "type": "google",
+      "name": "wqe",
+      "id": "22232322323",
+      "businessId": "biz_1689348769",
+      "active": true,
+      "createdAt": "2025-03-14T07:50:01.068Z",
+      "updatedAt": "2025-03-14T07:50:01.068Z"
+    }
+  ]
+}

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.language %>" dir="<%= ['ar', 'fa', 'he', 'ur'].includes(i18n.language) ? 'rtl' : 'ltr' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title><%= pageTitle %> | Tracklead</title>
+  <!-- Theme Initialization Script - Must be first -->
+  <script>
+    // Apply theme immediately before any rendering to prevent flashing
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      // Set Bootstrap secondary color based on theme
+      if (savedTheme === 'dark') {
+        document.documentElement.style.setProperty('--bs-secondary-color', '#FFFFFF');
+      }
+      // Prevent any transition during initial load
+      document.documentElement.style.transition = 'none';
+      // Re-enable transitions after page loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.documentElement.style.transition = '';
+        }, 50);
+      });
+    })();
+  </script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS Files -->
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/language.css" />
+  <link rel="stylesheet" href="/css/sidebar.css" />
+  <link rel="stylesheet" href="/css/main-content.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/utilities.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/charts.css" />
+  <link rel="stylesheet" href="/css/print.css" media="print" />
+</head>
+<body>
+  <%- include("../../../componentes/navbar") %>
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <%- include("../../../componentes/sidebar") %>
+      <div id="sidebar-overlay" class="sidebar-overlay"></div>
+      <main>
+        <div class="content-wrapper">
+          <!-- Page Title -->
+          <div class="page-title-wrapper mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h1 class="page-title">All Pixels</h1>
+                <p class="page-subtitle">Manage your tracking pixels across different platforms</p>
+              </div>
+              <a href="/pixels/add-new-pixel" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Add New Pixel
+              </a>
+            </div>
+          </div>
+          
+          <!-- Pixel List Table -->
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Installed Pixels</h5>
+              <div style="max-width: 250px;">
+                <select class="form-select" id="pixelTypeFilter">
+                  <option value="all">All Pixel Types</option>
+                  <option value="google">Google Ads</option>
+                  <option value="facebook">Facebook Pixel</option>
+                  <option value="tiktok">TikTok Pixel</option>
+                  <option value="pinterest">Pinterest Tag</option>
+                  <option value="taboola">Taboola Pixel</option>
+                  <option value="ga4">Google Analytics 4</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table align-middle table-hover mb-0" id="pixelsTable">
+                  <thead>
+                    <tr>
+                      <th class="ps-4">PIXEL TYPE</th>
+                      <th>NAME</th>
+                      <th>PIXEL ID</th>
+                      <th>STATUS</th>
+                      <th>CREATED</th>
+                      <th class="text-end pe-4">ACTIONS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pixelsTableBody">
+                    <% 
+                    // Helper functions
+                    function getPixelTypeIcon(type) {
+                      const icons = {
+                        'google': 'fab fa-google',
+                        'facebook': 'fab fa-facebook-f',
+                        'tiktok': 'fab fa-tiktok',
+                        'pinterest': 'fab fa-pinterest-p',
+                        'taboola': 'fas fa-bullhorn',
+                        'ga4': 'fas fa-chart-line'
+                      };
+                      return icons[type] || 'fas fa-tag';
+                    }
+
+                    function getPixelTypeName(type) {
+                      const names = {
+                        'google': 'Google Ads',
+                        'facebook': 'Facebook Pixel',
+                        'tiktok': 'TikTok Pixel',
+                        'pinterest': 'Pinterest Tag',
+                        'taboola': 'Taboola Pixel',
+                        'ga4': 'Google Analytics 4'
+                      };
+                      return names[type] || 'Unknown';
+                    }
+
+                    function formatDate(dateString) {
+                      const date = new Date(dateString);
+                      return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    }
+                    %>
+                    
+                    <!-- Empty state message -->
+                    <% if (!pixels || pixels.length === 0) { %>
+                    <tr>
+                      <td colspan="6" class="text-center py-4">
+                        <i class="fas fa-tag fa-2x mb-3 text-muted"></i>
+                        <p>No pixels found. <a href="/pixels/add-new-pixel">Add your first pixel</a> to start tracking conversions.</p>
+                      </td>
+                    </tr>
+                    <% } else { %>
+                    <!-- Render server-side pixels data -->
+                    <% pixels.forEach(pixel => { %>
+                    <tr>
+                      <td class="ps-4">
+                        <div class="pixel-badge">
+                          <div class="pixel-icon <%= pixel.type %>">
+                            <i class="<%= getPixelTypeIcon(pixel.type) %>"></i>
+                          </div>
+                          <span><%= getPixelTypeName(pixel.type) %></span>
+                        </div>
+                      </td>
+                      <td><%= pixel.name %></td>
+                      <td><span class="text-monospace fw-medium"><%= pixel.id %></span></td>
+                      <td>
+                        <span class="status-badge <%= pixel.active ? 'status-active' : 'status-inactive' %>">
+                          <%= pixel.active ? 'Active' : 'Inactive' %>
+                        </span>
+                      </td>
+                      <td><%= formatDate(pixel.createdAt) %></td>
+                      <td class="text-end pe-4">
+                        <div class="btn-group action-btn-group">
+                          <button class="btn theme-toggle edit-pixel-btn" data-pixel-id="<%= pixel._id %>" title="Edit Pixel">
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button class="btn theme-toggle delete-pixel-btn" data-pixel-id="<%= pixel._id %>" title="Delete Pixel">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <% }); %>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pixel Edit Modal -->
+          <div class="modal fade" id="editPixelModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Pixel</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="editPixelForm" class="needs-validation" novalidate>
+                    <input type="hidden" id="editPixelId">
+                    <div class="mb-3">
+                      <label class="form-label">Pixel Name</label>
+                      <input type="text" class="form-control" id="editPixelName" required>
+                      <div class="invalid-feedback">Please provide a name for your pixel</div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Pixel ID</label>
+                      <input type="text" class="form-control" id="editPixelId" required>
+                      <div class="invalid-feedback">Please provide a valid pixel ID</div>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="editPixelStatus">
+                      <label class="form-check-label" for="editPixelStatus">Pixel Active</label>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" id="saveEditPixel">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delete Confirmation Modal -->
+          <div class="modal fade" id="deletePixelModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Delete Pixel</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to delete this pixel? This action cannot be undone.</p>
+                  <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Deleting this pixel will remove it from all your tracking and conversion data.
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger" id="confirmDeletePixel">Delete Pixel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <style>
+            /* Pixel type badges */
+            .pixel-badge {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              width: fit-content;
+            }
+            
+            .pixel-icon {
+              width: 32px;
+              height: 32px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 6px;
+            }
+            
+            .pixel-icon.google {
+              background-color: rgba(234, 67, 53, 0.15);
+              color: #EA4335;
+            }
+            
+            .pixel-icon.facebook {
+              background-color: rgba(66, 103, 178, 0.15);
+              color: #4267B2;
+            }
+            
+            .pixel-icon.tiktok {
+              background-color: rgba(238, 29, 82, 0.15);
+              color: #EE1D52;
+            }
+            
+            .pixel-icon.pinterest {
+              background-color: rgba(230, 0, 35, 0.15);
+              color: #E60023;
+            }
+            
+            .pixel-icon.taboola {
+              background-color: rgba(25, 43, 61, 0.15);
+              color: #192B3D;
+            }
+            
+            .pixel-icon.ga4 {
+              background-color: rgba(66, 133, 244, 0.15);
+              color: #4285F4;
+            }
+
+            /* Status badges */
+            .status-badge {
+              font-size: 0.75rem;
+              padding: 0.35rem 0.65rem;
+              border-radius: 0.375rem;
+            }
+            
+            .status-active {
+              background-color: rgba(16, 185, 129, 0.15);
+              color: #10B981;
+            }
+            
+            .status-inactive {
+              background-color: rgba(239, 68, 68, 0.15);
+              color: #EF4444;
+            }
+
+            /* Modal styles */
+            .modal-content {
+              background-color: var(--surface);
+              border-color: var(--border);
+            }
+
+            .modal-header {
+              border-bottom-color: var(--border);
+            }
+
+            .modal-footer {
+              border-top-color: var(--border);
+            }
+
+            .btn-close {
+              filter: invert(1) grayscale(100%) brightness(200%);
+            }
+
+            /* Alert styling */
+            .alert-warning {
+              background-color: rgba(245, 158, 11, 0.15);
+              color: #F59E0B;
+              border-color: rgba(245, 158, 11, 0.3);
+            }
+
+            /* Empty state styling */
+            .empty-state {
+              padding: 3rem 1rem;
+              text-align: center;
+              color: var(--text-secondary);
+            }
+
+            .empty-state i {
+              font-size: 3rem;
+              margin-bottom: 1rem;
+              opacity: 0.5;
+            }
+
+            .empty-state h4 {
+              font-size: 1.5rem;
+              margin-bottom: 1rem;
+              color: var(--text-primary);
+            }
+
+            .empty-state p {
+              max-width: 500px;
+              margin: 0 auto;
+            }
+            
+            /* Custom form select styling */
+            .form-select {
+              background-color: var(--surface-input);
+              border: 1px solid var(--border);
+              color: var(--text-primary);
+              transition: border-color 0.2s ease, box-shadow 0.2s ease;
+              background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23adb5bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            }
+            
+            .form-select:focus {
+              border-color: var(--primary);
+              box-shadow: 0 0 0 0.25rem var(--primary-shadow);
+              outline: 0;
+            }
+            
+            /* For dark theme specific styling */
+            [data-theme="dark"] .form-select {
+              background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            }
+            
+            /* Action buttons styling */
+            .action-btn-group {
+              display: inline-flex;
+              align-items: center;
+            }
+            
+            .action-btn-group .btn {
+              padding: 0.4rem 0.6rem;
+              line-height: 1;
+            }
+          </style>
+
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const pixelsTableBody = document.getElementById('pixelsTableBody');
+              const pixelTypeFilter = document.getElementById('pixelTypeFilter');
+              
+              // Get all pixels from the table
+              const pixelsRows = Array.from(document.querySelectorAll('#pixelsTableBody tr:not(.no-pixels-message)'));
+              
+              // Filter by pixel type
+              pixelTypeFilter.addEventListener('change', function() {
+                const selectedType = this.value;
+                
+                pixelsRows.forEach(row => {
+                  const pixelType = row.querySelector('.pixel-icon').classList[1]; // Get type from class
+                  
+                  if (selectedType === 'all' || pixelType === selectedType) {
+                    row.style.display = '';
+                  } else {
+                    row.style.display = 'none';
+                  }
+                });
+                
+                // Check if no rows are visible and show empty message if needed
+                const visibleRows = pixelsRows.filter(row => row.style.display !== 'none');
+                const noPixelsMessage = document.querySelector('.no-pixels-message');
+                
+                if (visibleRows.length === 0 && pixelsRows.length > 0) {
+                  // Create and show empty filtered message if it doesn't exist
+                  if (!noPixelsMessage) {
+                    const emptyRow = document.createElement('tr');
+                    emptyRow.className = 'no-pixels-message';
+                    emptyRow.innerHTML = `
+                      <td colspan="6" class="text-center py-4">
+                        <i class="fas fa-filter fa-2x mb-3 text-muted"></i>
+                        <p>No pixels found with the selected filter.</p>
+                      </td>
+                    `;
+                    pixelsTableBody.appendChild(emptyRow);
+                  } else {
+                    noPixelsMessage.style.display = '';
+                  }
+                } else if (noPixelsMessage) {
+                  noPixelsMessage.style.display = 'none';
+                }
+              });
+              
+              // Handle edit pixel
+              const editPixelModal = new bootstrap.Modal(document.getElementById('editPixelModal'));
+              const editPixelForm = document.getElementById('editPixelForm');
+              const editPixelIdInput = document.getElementById('editPixelId');
+              const editPixelNameInput = document.getElementById('editPixelName');
+              const editPixelStatusInput = document.getElementById('editPixelStatus');
+              const saveEditPixelBtn = document.getElementById('saveEditPixel');
+              
+              document.querySelectorAll('.edit-pixel-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                  const pixelId = this.dataset.pixelId;
+                  
+                  // Find the row data
+                  const row = this.closest('tr');
+                  const name = row.querySelector('td:nth-child(2)').textContent;
+                  const id = row.querySelector('td:nth-child(3) span').textContent;
+                  const isActive = row.querySelector('.status-badge').classList.contains('status-active');
+                  
+                  // Fill the form
+                  document.getElementById('editPixelId').value = pixelId;
+                  editPixelNameInput.value = name;
+                  editPixelIdInput.value = id;
+                  editPixelStatusInput.checked = isActive;
+                  
+                  // Show modal
+                  editPixelModal.show();
+                });
+              });
+              
+              // Save edit changes
+              saveEditPixelBtn.addEventListener('click', async function() {
+                if (!editPixelForm.checkValidity()) {
+                  editPixelForm.classList.add('was-validated');
+                  return;
+                }
+                
+                const pixelId = document.getElementById('editPixelId').value;
+                
+                // Disable button and show loading state
+                saveEditPixelBtn.disabled = true;
+                saveEditPixelBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
+                
+                try {
+                  // Send update request
+                  const response = await fetch(`/api/pixels/${pixelId}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      name: editPixelNameInput.value,
+                      pixelId: editPixelIdInput.value,
+                      active: editPixelStatusInput.checked
+                    })
+                  });
+                  
+                  const data = await response.json();
+                  
+                  if (data.success) {
+                    // Show success message
+                    showToast('success', 'Pixel updated successfully');
+                    
+                    // Close modal and refresh page after a short delay
+                    setTimeout(() => {
+                      editPixelModal.hide();
+                      window.location.reload();
+                    }, 1500);
+                  } else {
+                    showToast('danger', data.message || 'Error updating pixel');
+                    saveEditPixelBtn.disabled = false;
+                    saveEditPixelBtn.innerHTML = 'Save Changes';
+                  }
+                } catch (error) {
+                  console.error('Error updating pixel:', error);
+                  showToast('danger', 'An error occurred while updating the pixel');
+                  saveEditPixelBtn.disabled = false;
+                  saveEditPixelBtn.innerHTML = 'Save Changes';
+                }
+              });
+              
+              // Handle delete pixel
+              const deletePixelModal = new bootstrap.Modal(document.getElementById('deletePixelModal'));
+              const confirmDeletePixelBtn = document.getElementById('confirmDeletePixel');
+              let deletePixelId = null;
+              
+              document.querySelectorAll('.delete-pixel-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                  deletePixelId = this.dataset.pixelId;
+                  deletePixelModal.show();
+                });
+              });
+              
+              // Confirm delete
+              confirmDeletePixelBtn.addEventListener('click', async function() {
+                if (!deletePixelId) return;
+                
+                // Disable button and show loading state
+                confirmDeletePixelBtn.disabled = true;
+                confirmDeletePixelBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Deleting...';
+                
+                try {
+                  // Send delete request
+                  const response = await fetch(`/api/pixels/${deletePixelId}`, {
+                    method: 'DELETE'
+                  });
+                  
+                  const data = await response.json();
+                  
+                  if (data.success) {
+                    // Show success message
+                    showToast('danger', 'Pixel deleted successfully');
+                    
+                    // Close modal and refresh page after a short delay
+                    setTimeout(() => {
+                      deletePixelModal.hide();
+                      window.location.reload();
+                    }, 1500);
+                  } else {
+                    showToast('danger', data.message || 'Error deleting pixel');
+                    confirmDeletePixelBtn.disabled = false;
+                    confirmDeletePixelBtn.innerHTML = 'Delete Pixel';
+                  }
+                } catch (error) {
+                  console.error('Error deleting pixel:', error);
+                  showToast('danger', 'An error occurred while deleting the pixel');
+                  confirmDeletePixelBtn.disabled = false;
+                  confirmDeletePixelBtn.innerHTML = 'Delete Pixel';
+                }
+              });
+              
+              // Helper function to show toast notifications
+              function showToast(type, message) {
+                const toastEl = document.createElement('div');
+                toastEl.className = `toast align-items-center text-white bg-${type} border-0 position-fixed bottom-0 end-0 m-3`;
+                toastEl.setAttribute('role', 'alert');
+                toastEl.setAttribute('aria-live', 'assertive');
+                toastEl.setAttribute('aria-atomic', 'true');
+                
+                toastEl.innerHTML = `
+                  <div class="d-flex">
+                    <div class="toast-body">
+                      <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                      ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                  </div>
+                `;
+                
+                document.body.appendChild(toastEl);
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+                
+                // Auto-remove after it's hidden
+                toastEl.addEventListener('hidden.bs.toast', function() {
+                  document.body.removeChild(toastEl);
+                });
+              }
+            });
+          </script>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="/js/scripts.js"></script>
+  <script>
+    // Update Bootstrap secondary color when theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.attributeName === 'data-theme') {
+          const theme = document.documentElement.getAttribute('data-theme');
+          document.documentElement.style.setProperty(
+            '--bs-secondary-color',
+            theme === 'dark' ? '#FFFFFF' : ''
+          );
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+  </script>
+</body>
+</html>

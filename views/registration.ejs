@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="<%= i18n ? i18n.language : 'en' %>" dir="<%= ['ar', 'fa', 'he', 'ur'].includes(i18n.language) ? 'rtl' : 'ltr' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Tracklead</title>
+  <!-- Theme Initialization Script - Must be first -->
+  <script>
+    // Apply theme immediately before any rendering to prevent flashing
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      // Prevent any transition during initial load
+      document.documentElement.style.transition = 'none';
+      // Re-enable transitions after page loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          document.documentElement.style.transition = '';
+        }, 50);
+      });
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS Files -->
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/language.css" />
+  <link rel="stylesheet" href="/css/sidebar.css" />
+  <link rel="stylesheet" href="/css/main-content.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/utilities.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/print.css" media="print" />
+  <style>
+    /* Registration-specific styles */
+    .registration-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--background) 0%, var(--background-gradient) 100%);
+    }
+    
+    .registration-card {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px var(--shadow);
+      width: 100%;
+      max-width: 480px;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .registration-logo {
+      margin-bottom: 1.5rem;
+    }
+    
+    .registration-logo img {
+      height: 40px;
+      transition: opacity 0.2s ease;
+    }
+    
+    .form-label {
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .register-input-group {
+      margin-bottom: 1.5rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .register-input-group:focus-within {
+      transform: translateY(-2px);
+    }
+    
+    .input-group-text {
+      background-color: var(--surface-accent);
+      border: 1px solid var(--border-accent);
+      color: var(--text-primary);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .form-control {
+      background-color: var(--surface-input);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      font-size: 0.95rem;
+      padding: 0.6rem 1rem;
+    }
+    
+    .form-control:focus {
+      background-color: var(--surface-input-focus);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-shadow);
+      color: var(--text-primary);
+    }
+    
+    .register-btn {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px var(--primary-shadow);
+      margin-top: 0.5rem;
+    }
+    
+    .register-btn:hover, 
+    .register-btn:focus, 
+    .register-btn:active,
+    .register-btn:focus-visible,
+    .register-btn:focus-within,
+    .register-btn:visited,
+    .register-btn:disabled {
+      background-color: var(--primary-dark) !important;
+      border-color: var(--primary-dark) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px var(--primary-shadow);
+      color: white !important;
+    }
+    
+    /* Force same color for blue outline that Bootstrap adds by default */
+    .register-btn:focus {
+      box-shadow: 0 0 0 0.25rem var(--primary-shadow) !important;
+    }
+    
+    .register-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 5px var(--primary-shadow) !important;
+    }
+    
+    /* Specific styling for disabled state */
+    .register-btn:disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
+      transform: translateY(0);
+    }
+    
+    .alert-danger {
+      background-color: var(--error-bg);
+      color: var(--error-text);
+      border-color: var(--error-border);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    
+    .alert-success {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+      border-color: rgba(16, 185, 129, 0.3);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+      40%, 60% { transform: translate3d(3px, 0, 0); }
+    }
+    
+    .registration-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    
+    .registration-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .registration-footer a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    
+    .password-toggle {
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+    
+    .password-toggle:hover {
+      color: var(--text-primary);
+    }
+    
+    .password-requirements {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    
+    .password-requirement {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+    
+    .password-requirement i {
+      margin-right: 0.5rem;
+      font-size: 0.7rem;
+    }
+    
+    .requirement-met {
+      color: #10B981;
+    }
+    
+    .requirement-not-met {
+      color: var(--text-secondary);
+    }
+
+    /* Social Login Buttons */
+    .social-login {
+      margin: 1.5rem 0;
+      position: relative;
+      text-align: center;
+    }
+    
+    .social-login::before,
+    .social-login::after {
+      content: "";
+      display: block;
+      width: calc(50% - 3rem);
+      height: 1px;
+      background: var(--border);
+      position: absolute;
+      top: 50%;
+    }
+    
+    .social-login::before {
+      left: 0;
+    }
+    
+    .social-login::after {
+      right: 0;
+    }
+    
+    .social-login span {
+      background: var(--surface);
+      padding: 0 1rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      background: var(--surface-accent);
+      color: var(--text-primary);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .social-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .social-btn i {
+      font-size: 1.2rem;
+      margin-right: 0.75rem;
+    }
+    
+    .social-btn.google i {
+      color: #DB4437;
+    }
+    
+    .social-btn.facebook i {
+      color: #4267B2;
+    }
+
+    .form-check-input:checked {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .form-check-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem var(--primary-shadow);
+    }
+
+    /* Language and theme toggles */
+    .registration-settings {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle, 
+    .language-toggle {
+      background-color: var(--surface-hover);
+      border: 0.0625rem solid var(--border);
+      color: var(--text-primary);
+      border-radius: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      height: 2rem;
+      min-width: 2rem;
+    }
+
+    .theme-toggle:hover,
+    .language-toggle:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .theme-toggle i,
+    .language-toggle i {
+      font-size: 1rem;
+    }
+
+    .flag {
+      width: 1rem;
+      height: 0.75rem;
+      background-size: cover;
+      background-position: center;
+      border-radius: 0.125rem;
+    }
+    
+    .uk-flag {
+      background-image: url("/locales/flags/en.svg");
+    }
+    
+    .br-flag {
+      background-image: url("/locales/flags/pt-BR.svg");
+    }
+
+    .fr-flag {
+      background-image: url("/locales/flags/fr.svg");
+    }
+
+    .es-flag {
+      background-image: url("/locales/flags/es.svg");
+    }
+
+    .it-flag {
+      background-image: url("/locales/flags/it.svg");
+    }
+
+    .de-flag {
+      background-image: url("/locales/flags/de.svg");
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .registration-settings {
+      right: auto;
+      left: 1rem;
+    }
+
+    [dir="rtl"] .language-modal-option {
+      flex-direction: row-reverse;
+    }
+    
+    [dir="rtl"] .social-btn i {
+      margin-right: 0;
+      margin-left: 0.75rem;
+    }
+    
+    [dir="rtl"] .password-requirement i {
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+    
+    .password-requirements {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .password-requirements.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="registration-page">
+    <!-- Language and Theme Toggles -->
+    <div class="registration-settings">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Change Theme">
+        <i class="fas fa-sun"></i>
+      </button>
+      <button class="language-toggle" id="language-toggle" aria-label="<%= i18n.t('language.selectLanguage') %>">
+        <% if (i18n.language === 'en') { %>
+          <div class="flag uk-flag"></div>
+          <span class="d-none d-sm-inline">EN</span>
+        <% } else if (i18n.language === 'pt-BR') { %>
+          <div class="flag br-flag"></div>
+          <span class="d-none d-sm-inline">PT</span>
+        <% } else if (i18n.language === 'fr') { %>
+          <div class="flag fr-flag"></div>
+          <span class="d-none d-sm-inline">FR</span>
+        <% } else if (i18n.language === 'es') { %>
+          <div class="flag es-flag"></div>
+          <span class="d-none d-sm-inline">ES</span>
+        <% } else if (i18n.language === 'it') { %>
+          <div class="flag it-flag"></div>
+          <span class="d-none d-sm-inline">IT</span>
+        <% } else if (i18n.language === 'de') { %>
+          <div class="flag de-flag"></div>
+          <span class="d-none d-sm-inline">DE</span>
+        <% } %>
+      </button>
+    </div>
+
+    <div class="registration-card">
+      <div class="registration-logo text-center">
+        <script>
+          (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const logoSrc = savedTheme === 'light' 
+              ? 'https://assets.tracklead.com/assets/logo-azul-preto.png' 
+              : 'https://assets.tracklead.com/assets/logo-ciano-branco.png';
+            document.write(`<img src="${logoSrc}" alt="Tracklead" class="img-fluid">`);
+          })();
+        </script>
+        <noscript>
+          <img src="https://assets.tracklead.com/assets/logo-ciano-branco.png" alt="Tracklead" class="img-fluid">
+        </noscript>
+      </div>
+      
+      <div id="alert-container">
+        <% if (typeof error !== "undefined") { %>
+          <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <%= error %>
+          </div>
+        <% } %>
+      </div>
+      
+      <div class="social-login">
+        <span><%= i18n.t('register.signUpWith') || "Sign up with" %></span>
+      </div>
+      
+      <div class="row g-3 mb-4">
+        <div class="col-6">
+          <form action="/social-register/google" method="POST">
+            <button type="submit" class="social-btn google w-100">
+              <i class="fab fa-google"></i>
+              Google
+            </button>
+          </form>
+        </div>
+        <div class="col-6">
+          <form action="/social-register/facebook" method="POST">
+            <button type="submit" class="social-btn facebook w-100">
+              <i class="fab fa-facebook"></i>
+              Facebook
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="social-login">
+        <span><%= i18n.t('register.orSignUpWithEmail') || "Or sign up with email" %></span>
+      </div>
+
+      <form id="registration-form" method="POST" action="/register">
+        <div class="mb-3 register-input-group">
+          <label for="name" class="form-label"><%= i18n.t('register.fullName') || "Full Name" %></label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-user"></i>
+            </span>
+            <input type="text" class="form-control" id="name" name="name" required autocomplete="name" />
+          </div>
+        </div>
+        
+        <div class="mb-3 register-input-group">
+          <label for="email" class="form-label"><%= i18n.t('register.emailAddress') || "Email Address" %></label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input type="email" class="form-control" id="email" name="email" required autocomplete="email" />
+          </div>
+        </div>
+        
+        <div class="mb-3 register-input-group">
+          <label for="password" class="form-label"><%= i18n.t('register.password') || "Password" %></label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password" />
+            <span class="input-group-text password-toggle" onclick="togglePasswordVisibility('password')">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+          <div class="password-requirements">
+            <div class="password-requirement" id="req-length">
+              <i class="fas fa-circle"></i> <%= i18n.t('register.passwordRequirements.length') || "At least 8 characters" %>
+            </div>
+            <div class="password-requirement" id="req-uppercase">
+              <i class="fas fa-circle"></i> <%= i18n.t('register.passwordRequirements.uppercase') || "At least one uppercase letter" %>
+            </div>
+            <div class="password-requirement" id="req-lowercase">
+              <i class="fas fa-circle"></i> <%= i18n.t('register.passwordRequirements.lowercase') || "At least one lowercase letter" %>
+            </div>
+            <div class="password-requirement" id="req-number">
+              <i class="fas fa-circle"></i> <%= i18n.t('register.passwordRequirements.number') || "At least one number" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4 form-check d-flex align-items-center justify-content-center" style="padding-top: 1rem;">
+          <input type="checkbox" class="form-check-input me-2" id="terms" name="terms" required checked>
+          <label class="form-check-label" for="terms" style="font-size: 0.9rem;">
+            <%= i18n.t('register.termsAgreement') || "I agree to the" %> <a href="#" class="text-white"><%= i18n.t('register.terms') || "Terms of Service" %></a> <%= i18n.t('register.and') || "and" %> <a href="#" class="text-white"><%= i18n.t('register.privacy') || "Privacy Policy" %></a>
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary register-btn w-100" id="register-button">
+          <i class="fas fa-user-plus me-2"></i>
+          <%= i18n.t('register.createAccount') || "Create Account" %>
+        </button>
+      </form>
+      
+      <div class="registration-footer">
+        <%= i18n.t('register.alreadyHaveAccount') || "Already have an account?" %> <a href="/login" class="text-white"><%= i18n.t('register.loginHere') || "Login here" %></a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Modal Components -->
+  <div class="language-modal" id="language-modal" role="dialog" aria-labelledby="language-modal-title" aria-modal="true">
+    <div class="language-modal-content">
+      <div class="language-modal-header">
+        <h5 class="language-modal-title" id="language-modal-title"><%= i18n.t('language.selectLanguage') %></h5>
+      </div>
+      <div class="language-modal-body">
+        <div class="language-modal-option" onclick="changeLanguage('en')" tabindex="0" role="button" aria-pressed="<%= i18n.language === 'en' ? 'true' : 'false' %>" data-lang="en">
+          <div class="flag uk-flag"></div>
+          <div class="lang-name">
+            <span class="lang-name-native"><%= i18n.t('language.names.en') %></span>
+          </div>
+        </div>
+        <div class="language-modal-option" onclick="changeLanguage('pt-BR')" tabindex="0" role="button" aria-pressed="<%= i18n.language === 'pt-BR' ? 'true' : 'false' %>" data-lang="pt-BR">
+          <div class="flag br-flag"></div>
+          <div class="lang-name">
+            <span class="lang-name-native"><%= i18n.t('language.names.pt-BR') %></span>
+          </div>
+        </div>
+        <div class="language-modal-option" onclick="changeLanguage('fr')" tabindex="0" role="button" aria-pressed="<%= i18n.language === 'fr' ? 'true' : 'false' %>" data-lang="fr">
+          <div class="flag fr-flag"></div>
+          <div class="lang-name">
+            <span class="lang-name-native"><%= i18n.t('language.names.fr') %></span>
+          </div>
+        </div>
+        <div class="language-modal-option" onclick="changeLanguage('es')" tabindex="0" role="button" aria-pressed="<%= i18n.language === 'es' ? 'true' : 'false' %>" data-lang="es">
+          <div class="flag es-flag"></div>
+          <div class="lang-name">
+            <span class="lang-name-native"><%= i18n.t('language.names.es') %></span>
+          </div>
+        </div>
+        <div class="language-modal-option" onclick="changeLanguage('it')" tabindex="0" role="button" aria-pressed="<%= i18n.language === 'it' ? 'true' : 'false' %>" data-lang="it">
+          <div class="flag it-flag"></div>
+          <div class="lang-name">
+            <span class="lang-name-native"><%= i18n.t('language.names.it') %></span>
+          </div>
+        </div>
+        <div class="language-modal-option" onclick="changeLanguage('de')" tabindex="0" role="button" aria-pressed="<%= i18n.language === 'de' ? 'true' : 'false' %>" data-lang="de">
+          <div class="flag de-flag"></div>
+          <div class="lang-name">
+            <span class="lang-name-native"><%= i18n.t('language.names.de') %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/components/theme-modal.js"></script>
+  <script src="/js/components/language-modal.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize theme icons
+      if (themeModal) {
+        themeModal.updateThemeIcons();
+      }
+      
+      // Form submission with validation
+      const registrationForm = document.getElementById('registration-form');
+      const passwordInput = document.getElementById('password');
+      
+      if (registrationForm) {
+        registrationForm.addEventListener('submit', function(e) {
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const password = passwordInput.value;
+          const termsChecked = document.getElementById('terms').checked;
+          
+          // Client-side validation
+          if (!name || !email || !password) {
+            e.preventDefault();
+            showAlert('danger', '<%= i18n.t("register.allFieldsRequired") || "All fields are required" %>');
+            return;
+          }
+          
+          if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+            e.preventDefault();
+            showAlert('danger', '<%= i18n.t("register.passwordNotMeetRequirements") || "Password does not meet the requirements" %>');
+            return;
+          }
+          
+          if (!termsChecked) {
+            e.preventDefault();
+            showAlert('danger', '<%= i18n.t("register.mustAgreeToTerms") || "You must agree to the Terms of Service and Privacy Policy" %>');
+            return;
+          }
+          
+          // Show loading state
+          const button = document.getElementById('register-button');
+          button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> <%= i18n.t("register.creatingAccount") || "Creating Account..." %>';
+          button.disabled = true;
+        });
+      }
+      
+      // Password validation
+      const passwordRequirements = document.querySelector('.password-requirements');
+      passwordInput.addEventListener('input', function() {
+        if (this.value.length > 0) {
+          passwordRequirements.classList.add('show');
+        } else {
+          passwordRequirements.classList.remove('show');
+        }
+        validatePassword();
+      });
+    });
+
+    function togglePasswordVisibility(inputId) {
+      const passwordInput = document.getElementById(inputId);
+      const icon = passwordInput.parentElement.querySelector('.password-toggle i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+    
+    function validatePassword() {
+      const password = document.getElementById('password').value;
+      
+      // Check length
+      const reqLength = document.getElementById('req-length');
+      if (password.length >= 8) {
+        reqLength.classList.add('requirement-met');
+        reqLength.classList.remove('requirement-not-met');
+        reqLength.querySelector('i').classList.replace('fa-circle', 'fa-check-circle');
+      } else {
+        reqLength.classList.remove('requirement-met');
+        reqLength.classList.add('requirement-not-met');
+        reqLength.querySelector('i').classList.replace('fa-check-circle', 'fa-circle');
+      }
+      
+      // Check uppercase
+      const reqUppercase = document.getElementById('req-uppercase');
+      if (/[A-Z]/.test(password)) {
+        reqUppercase.classList.add('requirement-met');
+        reqUppercase.classList.remove('requirement-not-met');
+        reqUppercase.querySelector('i').classList.replace('fa-circle', 'fa-check-circle');
+      } else {
+        reqUppercase.classList.remove('requirement-met');
+        reqUppercase.classList.add('requirement-not-met');
+        reqUppercase.querySelector('i').classList.replace('fa-check-circle', 'fa-circle');
+      }
+      
+      // Check lowercase
+      const reqLowercase = document.getElementById('req-lowercase');
+      if (/[a-z]/.test(password)) {
+        reqLowercase.classList.add('requirement-met');
+        reqLowercase.classList.remove('requirement-not-met');
+        reqLowercase.querySelector('i').classList.replace('fa-circle', 'fa-check-circle');
+      } else {
+        reqLowercase.classList.remove('requirement-met');
+        reqLowercase.classList.add('requirement-not-met');
+        reqLowercase.querySelector('i').classList.replace('fa-check-circle', 'fa-circle');
+      }
+      
+      // Check number
+      const reqNumber = document.getElementById('req-number');
+      if (/[0-9]/.test(password)) {
+        reqNumber.classList.add('requirement-met');
+        reqNumber.classList.remove('requirement-not-met');
+        reqNumber.querySelector('i').classList.replace('fa-circle', 'fa-check-circle');
+      } else {
+        reqNumber.classList.remove('requirement-met');
+        reqNumber.classList.add('requirement-not-met');
+        reqNumber.querySelector('i').classList.replace('fa-check-circle', 'fa-circle');
+      }
+    }
+    
+    // Function to show alerts
+    function showAlert(type, message) {
+      const alertContainer = document.getElementById('alert-container');
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type}`;
+      alert.innerHTML = `
+        <i class="fas fa-${type === 'danger' ? 'exclamation-circle' : 'check-circle'} me-2"></i>
+        ${message}
+      `;
+      
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alert);
+      
+      if (type === 'danger') {
+        alert.classList.add('shake');
+      }
+    }
+  </script>
+</body>
+</html>

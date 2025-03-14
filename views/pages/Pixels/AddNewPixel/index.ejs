@@ -1,0 +1,365 @@
+<%- include("../../../dashboard-layout", {
+    pageTitle: "Add New Pixel",
+    body: `
+      <!-- Page Title -->
+      <div class="page-title-wrapper mb-4">
+        <h1 class="page-title">Add New Pixel</h1>
+        <p class="page-subtitle">Select a pixel type to configure tracking for your store</p>
+      </div>
+      
+      <!-- Pixel Cards Grid -->
+      <div class="grid-container mb-4">
+        <!-- Google Ads -->
+        <div class="card pixel-card" data-pixel="google">
+          <div class="card-body d-flex align-items-center">
+            <div class="pixel-icon me-3">
+              <img src="https://assets.tracklead.com/assets/thumb.png" alt="Google Ads" width="40">
+            </div>
+            <div>
+              <h5 class="mb-1">Google Ads</h5>
+              <p class="text-secondary mb-0">Conversion tracking</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Facebook Ads -->
+        <div class="card pixel-card" data-pixel="facebook">
+          <div class="card-body d-flex align-items-center">
+            <div class="pixel-icon me-3">
+              <img src="https://assets.tracklead.com/assets/thumb.png" alt="Facebook Ads" width="40">
+            </div>
+            <div>
+              <h5 class="mb-1">Facebook Ads</h5>
+              <p class="text-secondary mb-0">Meta pixel tracking</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TikTok Ads -->
+        <div class="card pixel-card" data-pixel="tiktok">
+          <div class="card-body d-flex align-items-center">
+            <div class="pixel-icon me-3">
+              <img src="https://assets.tracklead.com/assets/thumb.png" alt="TikTok Ads" width="40">
+            </div>
+            <div>
+              <h5 class="mb-1">TikTok Ads</h5>
+              <p class="text-secondary mb-0">TikTok pixel tracking</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pinterest Ads -->
+        <div class="card pixel-card" data-pixel="pinterest">
+          <div class="card-body d-flex align-items-center">
+            <div class="pixel-icon me-3">
+              <img src="https://assets.tracklead.com/assets/thumb.png" alt="Pinterest Ads" width="40">
+            </div>
+            <div>
+              <h5 class="mb-1">Pinterest Ads</h5>
+              <p class="text-secondary mb-0">Pinterest tag tracking</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Taboola Ads -->
+        <div class="card pixel-card" data-pixel="taboola">
+          <div class="card-body d-flex align-items-center">
+            <div class="pixel-icon me-3">
+              <img src="https://assets.tracklead.com/assets/thumb.png" alt="Taboola Ads" width="40">
+            </div>
+            <div>
+              <h5 class="mb-1">Taboola Ads</h5>
+              <p class="text-secondary mb-0">Taboola pixel tracking</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Analytics 4 -->
+        <div class="card pixel-card" data-pixel="ga4">
+          <div class="card-body d-flex align-items-center">
+            <div class="pixel-icon me-3">
+              <img src="https://assets.tracklead.com/assets/thumb.png" alt="Google Analytics 4" width="40">
+            </div>
+            <div>
+              <h5 class="mb-1">Google Analytics 4</h5>
+              <p class="text-secondary mb-0">GA4 measurement ID</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pixel Configuration Modal -->
+      <div class="modal fade" id="pixelModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Configure Pixel</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="pixelForm" class="needs-validation" novalidate>
+                <input type="hidden" id="pixelType">
+                <div class="mb-3">
+                  <label class="form-label">Pixel Name</label>
+                  <input type="text" class="form-control" id="pixelName" required>
+                  <div class="invalid-feedback">Please provide a name for your pixel</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Pixel ID</label>
+                  <input type="text" class="form-control" id="pixelId" required>
+                  <div class="invalid-feedback">Please provide a valid pixel ID</div>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="pixelStatus" checked>
+                  <label class="form-check-label" for="pixelStatus">Pixel Active</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="savePixel">Save Pixel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        .pixel-card {
+          cursor: pointer;
+          transition: var(--transition);
+        }
+        
+        .pixel-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0.5rem 1rem var(--shadow);
+          border-color: var(--primary);
+        }
+        
+        .pixel-icon {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .pixel-icon img {
+          max-width: 100%;
+          height: auto;
+        }
+
+        .toast {
+          z-index: 1070;
+        }
+
+        /* Dark theme modal styles */
+        .modal-content {
+          background-color: var(--surface);
+          border-color: var(--border);
+        }
+
+        .modal-header {
+          border-bottom-color: var(--border);
+        }
+
+        .modal-footer {
+          border-top-color: var(--border);
+        }
+
+        .form-label {
+          color: var(--text-primary);
+        }
+
+        .form-control {
+          background-color: var(--surface-input);
+          border-color: var(--border);
+          color: var(--text-primary);
+        }
+
+        .form-control:focus {
+          background-color: var(--surface-input-focus);
+          border-color: var(--primary);
+          color: var(--text-primary);
+          box-shadow: 0 0 0 0.25rem var(--primary-shadow);
+        }
+
+        .form-control::placeholder {
+          color: var(--text-secondary);
+        }
+
+        /* Form Switch in Dark Theme */
+        .form-check-input {
+          background-color: var(--surface-input);
+          border-color: var(--border);
+        }
+
+        .form-check-input:checked {
+          background-color: var(--primary);
+          border-color: var(--primary);
+        }
+
+        .form-check-input:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 0.2rem var(--primary-shadow);
+        }
+
+        .form-check-label {
+          color: var(--text-primary);
+        }
+
+        .btn-close {
+          filter: invert(1) grayscale(100%) brightness(200%);
+        }
+      </style>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const pixelCards = document.querySelectorAll('.pixel-card');
+          const pixelModal = new bootstrap.Modal(document.getElementById('pixelModal'));
+          const pixelForm = document.getElementById('pixelForm');
+          const pixelTypeInput = document.getElementById('pixelType');
+          const pixelNameInput = document.getElementById('pixelName');
+          const pixelIdInput = document.getElementById('pixelId');
+          const savePixelBtn = document.getElementById('savePixel');
+
+          // Fetch active business info to display
+          fetch('/api/user/active-business')
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                // Could update UI to show active business name if needed
+                console.log('Active business:', data.business.name);
+              }
+            })
+            .catch(error => console.error('Error fetching active business:', error));
+
+          // Handle card click
+          pixelCards.forEach(card => {
+            card.addEventListener('click', () => {
+              const pixelType = card.dataset.pixel;
+              pixelTypeInput.value = pixelType;
+              
+              // Set placeholder based on pixel type
+              switch(pixelType) {
+                case 'google':
+                  pixelIdInput.placeholder = 'Enter Google Ads Tag ID (e.g., AW-123456789)';
+                  break;
+                case 'facebook':
+                  pixelIdInput.placeholder = 'Enter Facebook Pixel ID (e.g., 123456789)';
+                  break;
+                case 'tiktok':
+                  pixelIdInput.placeholder = 'Enter TikTok Pixel ID (e.g., ABCDEF123456)';
+                  break;
+                case 'pinterest':
+                  pixelIdInput.placeholder = 'Enter Pinterest Tag ID (e.g., 123456789)';
+                  break;
+                case 'taboola':
+                  pixelIdInput.placeholder = 'Enter Taboola Pixel ID (e.g., TB-123456)';
+                  break;
+                case 'ga4':
+                  pixelIdInput.placeholder = 'Enter GA4 Measurement ID (e.g., G-XXXXXXXXXX)';
+                  break;
+              }
+              
+              pixelModal.show();
+            });
+          });
+
+          // Handle save pixel
+          savePixelBtn.addEventListener('click', async () => {
+            if (!pixelForm.checkValidity()) {
+              pixelForm.classList.add('was-validated');
+              return;
+            }
+
+            // Disable save button and show loading state
+            savePixelBtn.disabled = true;
+            savePixelBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
+
+            try {
+              // Create pixel data
+              const pixelData = {
+                type: pixelTypeInput.value,
+                name: pixelNameInput.value,
+                id: pixelIdInput.value,
+                active: document.getElementById('pixelStatus').checked
+              };
+
+              // Send data to server
+              const response = await fetch('/api/pixels', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(pixelData)
+              });
+
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Server returned ' + response.status + ' ' + response.statusText);
+              }
+
+              const result = await response.json();
+
+              if (result.success) {
+                // Show success message
+                showToast('success', 'Pixel added successfully!');
+                
+                // Reset form and close modal after a short delay
+                setTimeout(() => {
+                  pixelForm.reset();
+                  pixelModal.hide();
+                  
+                  // Redirect to list view
+                  window.location.href = '/pixels/list-all-pixels';
+                }, 1500);
+              } else {
+                showToast('danger', result.message || 'Error adding pixel');
+                // Re-enable save button
+                savePixelBtn.disabled = false;
+                savePixelBtn.innerHTML = 'Save Pixel';
+              }
+            } catch (error) {
+              console.error('Error saving pixel:', error);
+              showToast('danger', error.message || 'An error occurred while saving the pixel. Please try again.');
+              // Re-enable save button
+              savePixelBtn.disabled = false;
+              savePixelBtn.innerHTML = 'Save Pixel';
+            }
+          });
+
+          // Reset form when modal is closed
+          document.getElementById('pixelModal').addEventListener('hidden.bs.modal', () => {
+            pixelForm.reset();
+            pixelForm.classList.remove('was-validated');
+            savePixelBtn.disabled = false;
+            savePixelBtn.innerHTML = 'Save Pixel';
+          });
+
+          // Helper function to show toast notifications
+          function showToast(type, message) {
+            const toastElement = document.createElement('div');
+            toastElement.className = 'toast align-items-center text-white bg-' + type + ' border-0 position-fixed bottom-0 end-0 m-3';
+            toastElement.innerHTML = \`
+              <div class="d-flex">
+                <div class="toast-body">
+                  <i class="fas fa-\${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                  \${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+              </div>
+            \`;
+            
+            document.body.appendChild(toastElement);
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+            
+            // Auto-remove after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', function() {
+              document.body.removeChild(toastElement);
+            });
+          }
+        });
+      </script>
+    `
+}) %>

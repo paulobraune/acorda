@@ -1,0 +1,92 @@
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center">
+      <button class="btn theme-toggle me-3" type="button" aria-label="Toggle sidebar" id="sidebarToggleBtn">
+        <i class="fas fa-bars text-light"></i>
+      </button>
+      <a class="navbar-brand" href="/overview">
+        <!-- Script to set correct logo immediately before DOM loads -->
+        <script>
+          (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const logoSrc = savedTheme === 'light' 
+              ? 'https://assets.tracklead.com/assets/logo-azul-preto.png' 
+              : 'https://assets.tracklead.com/assets/logo-ciano-branco.png';
+            document.write(`<img src="${logoSrc}" alt="Logo Tracklead" />`);
+          })();
+        </script>
+        <noscript>
+          <img src="https://assets.tracklead.com/assets/logo-ciano-branco.png" alt="Logo Tracklead" />
+        </noscript>
+      </a>
+    </div>
+    <!-- Fix for navbar buttons - using a fixed width container -->
+    <div class="d-flex align-items-center" style="min-width: 280px; justify-content: flex-end;">
+      <!-- Desktop only controls -->
+      <div class="d-none d-md-flex align-items-center">
+        <button id="business-selector-btn" class="selected-business me-3" aria-label="Select Business">
+          <div class="business-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <span class="d-none d-sm-inline" id="current-business-name"><%= locals.activeBusiness ? activeBusiness.name : 'My Business' %></span>
+        </button>
+        <button id="theme-toggle" class="theme-toggle me-3" aria-label="Change Theme">
+          <i class="fas fa-sun"></i>
+        </button>
+        <button class="selected-language me-3" id="language-selector-btn" aria-label="<%= t('language.selectLanguage') %>">
+          <% if (i18n.language === 'en') { %>
+            <div class="flag uk-flag"></div>
+            <span class="d-none d-sm-inline">EN</span>
+          <% } else if (i18n.language === 'pt-BR') { %>
+            <div class="flag br-flag"></div>
+            <span class="d-none d-sm-inline">PT</span>
+          <% } else if (i18n.language === 'fr') { %>
+            <div class="flag fr-flag"></div>
+            <span class="d-none d-sm-inline">FR</span>
+          <% } else if (i18n.language === 'es') { %>
+            <div class="flag es-flag"></div>
+            <span class="d-none d-sm-inline">ES</span>
+          <% } else if (i18n.language === 'it') { %>
+            <div class="flag it-flag"></div>
+            <span class="d-none d-sm-inline">IT</span>
+          <% } else if (i18n.language === 'de') { %>
+            <div class="flag de-flag"></div>
+            <span class="d-none d-sm-inline">DE</span>
+          <% } %>
+        </button>
+        <button class="theme-toggle me-3" id="profile-btn" aria-label="User Profile">
+          <i class="fas fa-user"></i>
+          <span class="d-none d-sm-inline">
+            <% if (locals.user && user.name) { %>
+              <%= user.name.split(' ')[0] %>
+            <% } else { %>
+              User
+            <% } %>
+          </span>
+        </button>
+      </div>
+      <a class="nav-link d-flex align-items-center" href="/logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="ms-2 d-none d-sm-inline"><%= t('nav.logout') %></span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Store user ID for client-side reference -->
+<script>
+  window.userId = "<%= locals.user ? user.id : '' %>";
+  window.user = {
+    id: "<%= locals.user ? user.id : '' %>",
+    name: "<%= locals.user ? user.name : '' %>",
+    username: "<%= locals.user ? user.username : '' %>",
+    role: "<%= locals.user ? (user.role || 'User') : '' %>"
+  };
+  
+  <% if (locals.activeBusiness) { %>
+  window.activeBusinessData = {
+    id: "<%= activeBusiness._id %>",
+    name: "<%= activeBusiness.name %>"
+  };
+  <% } %>
+</script>

@@ -1,0 +1,298 @@
+<%- include("../../../dashboard-layout", {
+    pageTitle: "Products",
+    body: `
+      <!-- Page Title -->
+      <div class="page-title-wrapper mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="page-title">Products</h1>
+            <p class="page-subtitle">Manage your product catalog for all channels</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Products Filter Bar -->
+      <div class="card mb-4">
+        <div class="card-body p-3">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0">
+                  <i class="fas fa-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-start-0" id="productSearch" placeholder="Search products...">
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <select class="form-select" id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="electronics">Electronics</option>
+                <option value="clothing">Clothing</option>
+                <option value="home">Home & Kitchen</option>
+                <option value="beauty">Beauty & Personal Care</option>
+              </select>
+            </div>
+            
+            <div class="col-md-3">
+              <select class="form-select" id="statusFilter">
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="draft">Draft</option>
+                <option value="outofstock">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Products Table -->
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Product Catalog</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table align-middle table-hover mb-0" id="productsTable">
+              <thead>
+                <tr>
+                  <th class="ps-4" style="width: 50px;"></th>
+                  <th>PRODUCT</th>
+                  <th>CATEGORY</th>
+                  <th>STATUS</th>
+                  <th class="text-end pe-4">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <!-- Sample product rows -->
+                <tr>
+                  <td class="ps-4">
+                    <img src="https://via.placeholder.com/40" class="rounded" alt="Product thumbnail">
+                  </td>
+                  <td>
+                    <div class="fw-medium">Wireless Bluetooth Earbuds</div>
+                    <small class="text-muted">ID: #PRD001</small>
+                  </td>
+                  <td>Electronics</td>
+                  <td><span class="badge bg-success-subtle">Active</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group">
+                      <button class="btn theme-toggle" title="Edit Product"><i class="fas fa-edit"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4">
+                    <img src="https://via.placeholder.com/40" class="rounded" alt="Product thumbnail">
+                  </td>
+                  <td>
+                    <div class="fw-medium">Premium Cotton T-Shirt</div>
+                    <small class="text-muted">ID: #PRD002</small>
+                  </td>
+                  <td>Clothing</td>
+                  <td><span class="badge bg-success-subtle">Active</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group">
+                      <button class="btn theme-toggle" title="Edit Product"><i class="fas fa-edit"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4">
+                    <img src="https://via.placeholder.com/40" class="rounded" alt="Product thumbnail">
+                  </td>
+                  <td>
+                    <div class="fw-medium">Kitchen Knife Set</div>
+                    <small class="text-muted">ID: #PRD003</small>
+                  </td>
+                  <td>Home & Kitchen</td>
+                  <td><span class="badge bg-danger-subtle">Out of Stock</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group">
+                      <button class="btn theme-toggle" title="Edit Product"><i class="fas fa-edit"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4">
+                    <img src="https://via.placeholder.com/40" class="rounded" alt="Product thumbnail">
+                  </td>
+                  <td>
+                    <div class="fw-medium">Organic Face Cream</div>
+                    <small class="text-muted">ID: #PRD004</small>
+                  </td>
+                  <td>Beauty & Personal Care</td>
+                  <td><span class="badge bg-warning-subtle">Draft</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group">
+                      <button class="btn theme-toggle" title="Edit Product"><i class="fas fa-edit"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4">
+                    <img src="https://via.placeholder.com/40" class="rounded" alt="Product thumbnail">
+                  </td>
+                  <td>
+                    <div class="fw-medium">Smartwatch Series 5</div>
+                    <small class="text-muted">ID: #PRD005</small>
+                  </td>
+                  <td>Electronics</td>
+                  <td><span class="badge bg-success-subtle">Active</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group">
+                      <button class="btn theme-toggle" title="Edit Product"><i class="fas fa-edit"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer table-footer d-flex justify-content-between align-items-center">
+          <div>
+            <span class="me-2">Rows per page:</span>
+            <select class="form-select form-select-sm d-inline-block" style="width: auto;">
+              <option>5</option>
+              <option selected>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
+          </div>
+          <div>
+            <span class="me-3 text-muted">Page 1 of 4</span>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-light" disabled><i class="fas fa-chevron-left"></i></button>
+              <button class="btn btn-primary">1</button>
+              <button class="btn btn-light">2</button>
+              <button class="btn btn-light">3</button>
+              <button class="btn btn-light">4</button>
+              <button class="btn btn-light"><i class="fas fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        /* Status badges */
+        .badge.bg-success-subtle {
+          background-color: rgba(16, 185, 129, 0.1) !important;
+          color: #10B981 !important;
+        }
+        
+        .badge.bg-warning-subtle {
+          background-color: rgba(245, 158, 11, 0.1) !important;
+          color: #F59E0B !important;
+        }
+        
+        .badge.bg-danger-subtle {
+          background-color: rgba(239, 68, 68, 0.1) !important;
+          color: #EF4444 !important;
+        }
+        
+        /* Button styles */
+        .btn-outline-secondary {
+          border-color: var(--border);
+          color: var(--text-primary);
+        }
+        
+        .btn-outline-secondary:hover {
+          background-color: var(--surface-hover);
+          border-color: var(--border-accent);
+          color: var(--text-primary);
+        }
+        
+        /* Input group styling */
+        .input-group .input-group-text {
+          background-color: var(--surface-input);
+          border-color: var(--border);
+          color: var(--text-secondary);
+        }
+        
+        .input-group .form-control {
+          background-color: var(--surface-input);
+          border-color: var(--border);
+          color: var(--text-primary);
+        }
+        
+        .input-group .form-control:focus {
+          background-color: var(--surface-input-focus);
+          border-color: var(--primary);
+        }
+        
+        /* Filter section */
+        .form-select {
+          background-color: var(--surface-input);
+          border-color: var(--border);
+          color: var(--text-primary);
+        }
+        
+        .form-select:focus {
+          background-color: var(--surface-input-focus);
+          border-color: var(--primary);
+          box-shadow: 0 0 0 0.25rem var(--primary-shadow);
+        }
+      </style>
+      
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Initialize any interactive elements
+          const productSearch = document.getElementById('productSearch');
+          const categoryFilter = document.getElementById('categoryFilter');
+          const statusFilter = document.getElementById('statusFilter');
+          
+          // Simple search functionality
+          productSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#productsTableBody tr');
+            
+            rows.forEach(row => {
+              const productName = row.querySelector('td:nth-child(2) div').textContent.toLowerCase();
+              
+              if (productName.includes(searchTerm)) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+          
+          // Category filter
+          categoryFilter.addEventListener('change', function() {
+            const category = this.value;
+            filterProducts();
+          });
+          
+          // Status filter
+          statusFilter.addEventListener('change', function() {
+            const status = this.value;
+            filterProducts();
+          });
+          
+          // Combined filter function
+          function filterProducts() {
+            const category = categoryFilter.value;
+            const status = statusFilter.value;
+            const rows = document.querySelectorAll('#productsTableBody tr');
+            
+            rows.forEach(row => {
+              const rowCategory = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+              const rowStatus = row.querySelector('td:nth-child(4) span').textContent.toLowerCase();
+              
+              let showRow = true;
+              
+              if (category !== 'all' && !rowCategory.toLowerCase().includes(category.toLowerCase())) {
+                showRow = false;
+              }
+              
+              if (status !== 'all' && !rowStatus.toLowerCase().includes(status.toLowerCase())) {
+                showRow = false;
+              }
+              
+              row.style.display = showRow ? '' : 'none';
+            });
+          }
+        });
+      </script>
+    `
+}) %>

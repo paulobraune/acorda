@@ -1,0 +1,70 @@
+/* Variables */
+/* Default/Dark Theme */
+:root {
+    --surface-rgb: 30, 30, 30;
+    --sidebar-width-mini: 6.8rem; /* 100px to rem */
+    --primary: #00B9A0;
+    --primary-dark: #00C9B0;
+    --primary-shadow: rgba(0, 185, 160, 0.25);
+    --background: #0A0A0A; 
+    --background-gradient: #141414;
+    --surface: #1A1A1A;
+    --surface-hover: #242424;
+    --surface-accent: #222222;
+    --surface-input: #1E1E1E;
+    --surface-input-focus: #2a2a2a;
+    --text-primary: #FFFFFF;
+    --bs-heading-color: #FFFFFF;
+    --text-secondary: #CCCCCC;
+    --text-muted: #CCCCCC;
+    --border: #2A2A2A;
+    --border-accent: #3A3A3A;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-sidebar: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-fast: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-slow: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    --scrollbar-width: 0.5rem;
+    --scrollbar-track: #2D2D2D;
+    --scrollbar-thumb: #444444;
+    --scrollbar-thumb-hover: #555555;
+    --logo-url: url("https://assets.tracklead.com/assets/logo-ciano-branco.png");
+    --sidebar-width: 18.75rem;
+    --main-padding: 3.125rem;
+    
+    /* Error colors */
+    --error-bg: rgba(220, 53, 69, 0.15);
+    --error-text: #ff6b6b;
+    --error-border: rgba(220, 53, 69, 0.3);
+  }
+  
+  /* Light Theme */
+  [data-theme="light"] {
+    --surface-rgb: 255, 255, 255;
+    --primary: #005CA0;
+    --primary-dark: #004980;
+    --primary-shadow: rgba(0, 92, 160, 0.15);
+    --background: #f0f2f5;
+    --background-gradient: #e3e8f0;
+    --surface: #FFFFFF;
+    --surface-hover: #E9EFF6;
+    --surface-accent: #f5f8fc;
+    --surface-input: #f8f9fa;
+    --surface-input-focus: #ffffff;
+    --text-primary: #333333;
+    --bs-heading-color: #333333;
+    --text-secondary: #505050;
+    --text-muted: #666666;
+    --border: #d0d7de;
+    --border-accent: #c0c7d0;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --scrollbar-track: #EAEAEA;
+    --scrollbar-thumb: #CCCCCC;
+    --scrollbar-thumb-hover: #BBBBBB;
+    --logo-url: url("https://assets.tracklead.com/assets/logo-azul-preto.png");
+    
+    /* Error colors */
+    --error-bg: #fff5f5;
+    --error-text: #e53e3e;
+    --error-border: #fed7d7;
+  }  

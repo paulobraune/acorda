@@ -1,0 +1,37 @@
+{
+  "businesses": [
+    {
+      "_id": "biz_1689348769",
+      "name": "My Business",
+      "type": "ecommerce",
+      "userId": "usr_1689348762",
+      "integration": "api",
+      "plan": "pro",
+      "status": "active",
+      "createdAt": "2023-07-14T10:45:30.123Z",
+      "updatedAt": "2023-07-14T10:45:30.123Z"
+    },
+    {
+      "_id": "bus_1741938541709_e01356cf",
+      "name": "sdasd",
+      "type": "ecommerce",
+      "integration": "pixel",
+      "plan": "enterprise",
+      "userId": "use_1741938534794_a9a3b754",
+      "status": "active",
+      "createdAt": "2025-03-14T07:49:01.709Z",
+      "updatedAt": "2025-03-14T07:49:01.709Z"
+    },
+    {
+      "_id": "bus_1741940335204_11674336",
+      "name": "sdfsdf",
+      "type": "ecommerce",
+      "integration": "plugin",
+      "plan": "enterprise",
+      "userId": "usr_1689348762",
+      "status": "active",
+      "createdAt": "2025-03-14T08:18:55.204Z",
+      "updatedAt": "2025-03-14T08:18:55.204Z"
+    }
+  ]
+}

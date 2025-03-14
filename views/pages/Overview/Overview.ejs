@@ -1,0 +1,368 @@
+<%- include("../../dashboard-layout", {
+    pageTitle: "Overview",
+    body: `
+      <div class="page-title-wrapper">
+        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
+          <div>
+            <h1 class="page-title">Good Morning, Admin 👋</h1>
+            <p class="page-subtitle">Here's what's happening on your store today. See the statistics at once.</p>
+          </div>
+          <button class="btn btn-primary d-flex align-items-center">
+            <i class="fas fa-plus me-2"></i> Add Product
+          </button>
+        </div>
+      </div>
+
+      <!-- Key Metrics Cards -->
+      <div class="metrics-grid mb-4">
+        <!-- New Orders Card -->
+        <div class="card metrics-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="icon-wrapper">
+                <i class="fas fa-gift icon-primary fs-4"></i>
+              </div>
+              <div class="text-end">
+                <div>
+                  <h6 class="mb-1">New Orders</h6>
+                  <h3 class="mb-0">1,390</h3>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="chart-mini" style="height: 40px;">
+                <svg width="100" height="40" viewBox="0 0 100 40" preserveAspectRatio="none">
+                  <path d="M0,20 L10,15 L20,25 L30,20 L40,30 L50,15 L60,25 L70,20 L80,30 L90,15 L100,20" 
+                        stroke="var(--primary)" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="text-success me-2">+32.40%</span>
+              <span class="text-secondary">Comparado com ontem</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sales Card -->
+        <div class="card metrics-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="icon-wrapper">
+                <i class="fas fa-chart-line icon-success fs-4"></i>
+              </div>
+              <div class="text-end">
+                <div>
+                  <h6 class="mb-1">Sales</h6>
+                  <h3 class="mb-0">$57,890</h3>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="chart-mini" style="height: 40px;">
+                <svg width="100" height="40" viewBox="0 0 100 40" preserveAspectRatio="none">
+                  <path d="M0,20 L10,25 L20,15 L30,20 L40,10 L50,25 L60,15 L70,20 L80,10 L90,25 L100,20" 
+                        stroke="#10B981" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="text-danger me-2">-4.40%</span>
+              <span class="text-secondary">Comparado com ontem</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Revenue Card -->
+        <div class="card metrics-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="icon-wrapper">
+                <i class="fas fa-landmark icon-purple fs-4"></i>
+              </div>
+              <div class="text-end">
+                <div>
+                  <h6 class="mb-1">Revenue</h6>
+                  <h3 class="mb-0">$12,390</h3>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="chart-mini" style="height: 40px;">
+                <svg width="100" height="40" viewBox="0 0 100 40" preserveAspectRatio="none">
+                  <path d="M0,20 L10,15 L20,10 L30,15 L40,10 L50,5 L60,15 L70,10 L80,5 L90,10 L100,15" 
+                        stroke="#8B5CF6" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="text-success me-2">+32.40%</span>
+              <span class="text-secondary">Comparado com ontem</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profit Chart and Promotional Sales -->
+      <div class="grid-container-2 mb-3">
+        <!-- Total Profit Chart -->
+        <div class="card metrics-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="icon-wrapper">
+                <i class="fas fa-chart-pie icon-primary fs-4"></i>
+              </div>
+              <div class="text-end">
+                <div>
+                  <h6 class="mb-1">Total Profit</h6>
+                  <h3 class="mb-0">$8,950.00</h3>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="btn-group btn-group-sm w-100 mb-3" role="group">
+                <button type="button" class="btn btn-sm btn-outline-secondary active">5D</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">2W</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">1M</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">6M</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">1Y</button>
+              </div>
+              <div style="height: 300px;" class="mb-0">
+                <canvas id="totalProfitChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promotional Sales -->
+        <div class="card metrics-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="icon-wrapper">
+                <i class="fas fa-bullhorn icon-primary fs-4"></i>
+              </div>
+              <div class="text-end">
+                <div>
+                  <h6 class="mb-1">Promotional Sales</h6>
+                  <h3 class="mb-0">78% Reach</h3>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="btn-group btn-group-sm w-100 mb-3" role="group">
+                <button type="button" class="btn btn-sm btn-outline-secondary active">Mar</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Apr</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">May</button>
+              </div>
+              <div id="promotionalSalesChart" style="height: 200px;" class="mb-0"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-center">
+                <i class="fab fa-tiktok me-1" style="color: #FF4B4B;"></i>
+                <small class="text-secondary">TikTok</small>
+              </div>
+              <div class="text-center">
+                <i class="fab fa-instagram me-1" style="color: #FF8A3D;"></i>
+                <small class="text-secondary">Instagram</small>
+              </div>
+              <div class="text-center">
+                <i class="fab fa-twitter me-1" style="color: #3DB9DC;"></i>
+                <small class="text-secondary">Twitter</small>
+              </div>
+              <div class="text-center">
+                <i class="fab fa-facebook me-1" style="color: #4B6FFF;"></i>
+                <small class="text-secondary">Facebook</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sales Report -->
+      <div class="card metrics-card mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="icon-wrapper">
+              <i class="fas fa-chart-bar icon-primary fs-4"></i>
+            </div>
+            <div class="text-end">
+              <div>
+                <h6 class="mb-1">Sales Report</h6>
+                <h3 class="mb-0">$24,500.00</h3>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="btn-group btn-group-sm w-100 mb-3" role="group">
+              <button type="button" class="btn btn-sm btn-outline-secondary">2021</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">2022</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary active">2023</button>
+            </div>
+          <div id="salesReportChart" style="height: 18.75rem;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Orders Table -->
+      <div class="card metrics-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <h5 class="card-title mb-0">Recent Orders</h5>
+            <span class="badge bg-primary ms-2">5 New</span>
+          </div>
+          <div class="input-group table-search" style="max-width: 300px;">
+            <span class="input-group-text bg-transparent border-end-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input type="text" class="form-control form-control-sm border-start-0" placeholder="Search by Order ID or User ID...">
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table align-middle table-hover mb-0">
+              <thead>
+                <tr>
+                  <th class="ps-4">ORDER ID</th>
+                  <th>USER ID</th>
+                  <th>PRICE</th>
+                  <th>CREATED</th>
+                  <th>MODIFIED</th>
+                  <th>STATUS</th>
+                  <th class="text-end pe-4">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="ps-4 fw-medium">#7343</td>
+                  <td>USR_8392</td>
+                  <td class="fw-medium">$457.00</td>
+                  <td>
+                    <div>05/08/23</div>
+                    <small class="text-muted">3:01 PM</small>
+                  </td>
+                  <td>
+                    <div>10/08/23</div>
+                    <small class="text-muted">7:30 PM</small>
+                  </td>
+                  <td><span class="badge bg-danger-subtle text-danger">Cancelled</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn theme-toggle me-2" title="Edit Order"><i class="fas fa-edit"></i></button>
+                      <button class="btn theme-toggle" title="View Details"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4 fw-medium">#8192</td>
+                  <td>USR_7249</td>
+                  <td class="fw-medium">$428.00</td>
+                  <td>
+                    <div>22/07/23</div>
+                    <small class="text-muted">7:53 PM</small>
+                  </td>
+                  <td>
+                    <div>13/08/23</div>
+                    <small class="text-muted">1:26 PM</small>
+                  </td>
+                  <td><span class="badge bg-danger-subtle text-danger">Cancelled</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn theme-toggle me-2" title="Edit Order"><i class="fas fa-edit"></i></button>
+                      <button class="btn theme-toggle" title="View Details"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4 fw-medium">#4883</td>
+                  <td>USR_9183</td>
+                  <td class="fw-medium">$544.00</td>
+                  <td>
+                    <div>29/07/23</div>
+                    <small class="text-muted">8:46 AM</small>
+                  </td>
+                  <td>
+                    <div>09/08/23</div>
+                    <small class="text-muted">11:58 AM</small>
+                  </td>
+                  <td><span class="badge bg-warning-subtle text-warning-emphasis">Refunded</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn theme-toggle me-2" title="Edit Order"><i class="fas fa-edit"></i></button>
+                      <button class="btn theme-toggle" title="View Details"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4 fw-medium">#9714</td>
+                  <td>USR_5627</td>
+                  <td class="fw-medium">$282.00</td>
+                  <td>
+                    <div>25/07/23</div>
+                    <small class="text-muted">5:22 PM</small>
+                  </td>
+                  <td>
+                    <div>11/08/23</div>
+                    <small class="text-muted">9:03 PM</small>
+                  </td>
+                  <td><span class="badge bg-danger-subtle text-danger">Cancelled</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn theme-toggle me-2" title="Edit Order"><i class="fas fa-edit"></i></button>
+                      <button class="btn theme-toggle" title="View Details"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ps-4 fw-medium">#4849</td>
+                  <td>USR_3491</td>
+                  <td class="fw-medium">$971.00</td>
+                  <td>
+                    <div>18/07/23</div>
+                    <small class="text-muted">11:35 AM</small>
+                  </td>
+                  <td>
+                    <div>14/08/23</div>
+                    <small class="text-muted">2:24 PM</small>
+                  </td>
+                  <td><span class="badge bg-warning-subtle text-warning-emphasis">Refunded</span></td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn theme-toggle me-2" title="Edit Order"><i class="fas fa-edit"></i></button>
+                      <button class="btn theme-toggle" title="View Details"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer table-footer d-flex justify-content-between align-items-center">
+          <div>
+            <span class="me-2">Rows per page:</span>
+            <select class="form-select form-select-sm d-inline-block" style="width: auto;">
+              <option>5</option>
+              <option selected>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
+          </div>
+          <div>
+            <span class="me-3 text-muted">Page 1 of 3</span>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-light" disabled><i class="fas fa-chevron-left"></i></button>
+              <button class="btn btn-primary">1</button>
+              <button class="btn btn-light">2</button>
+              <button class="btn btn-light">3</button>
+              <button class="btn btn-light"><i class="fas fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Load Chart.js and ApexCharts libraries -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+      <!-- Load custom charts -->
+      <script src="/js/charts.js"></script>
+    `
+  }) %>

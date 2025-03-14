@@ -1,0 +1,246 @@
+/* Main Content */
+main {
+    position: relative;
+    min-height: calc(100vh - 3.5rem);
+    padding-top: 3.5rem;
+    margin-left: var(--sidebar-width);
+    transition: 
+      margin-left var(--transition-sidebar),
+      width var(--transition-sidebar);
+    background-color: var(--background);
+    width: calc(100% - var(--sidebar-width));
+    box-sizing: border-box;
+    overflow-x: hidden;
+    will-change: margin-left, width;
+  }
+  
+  main.mini {
+    margin-left: var(--sidebar-width-mini);
+    width: calc(100% - var(--sidebar-width-mini));
+  }
+  
+  @media (max-width: 48rem) {
+    main, main.mini {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+  
+  .content-wrapper {
+    padding: 1.5rem var(--main-padding);
+    width: 100%;
+    transition: padding 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  
+  /* Content Container */
+  .container-fluid {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Grid System */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 1rem;
+    padding-top: 2px;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .grid-container-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  @media (max-width: 768px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Cards */
+  .card {
+    background-color: var(--surface);
+    border: 0.0625rem solid var(--border);
+    border-radius: 0.75rem;
+    transition: var(--transition);
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .card-header {
+    background-color: transparent;
+    border-bottom: 0.0625rem solid var(--border);
+    padding: 1.25rem;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+    flex: 1;
+    max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+  
+  .card-footer {
+    background-color: transparent;
+    border-top: 0.0625rem solid var(--border);
+    padding: 1rem 1.25rem;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Page Title Section */
+  .page-title-wrapper {
+    margin-bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  /* Metrics Cards */
+  .metrics-card {
+    border: 1px solid var(--border) !important;
+    background-color: var(--surface) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+  }
+
+  .metrics-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .metrics-card .card-body {
+    padding: 1.5rem;
+  }
+
+  .metrics-card .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .metrics-card .icon-primary {
+    color: #00FFE0;
+  }
+
+  .metrics-card .icon-success {
+    color: #4AE9B0;
+  }
+
+  .metrics-card .icon-purple {
+    color: #B49DFF;
+  }
+
+  .metrics-card h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .metrics-card h6 {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .metrics-card .chart-mini {
+    width: 100%;
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .metrics-card .chart-mini svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .metrics-card h3 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .metrics-card h6 {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+
+  .metrics-card .text-secondary {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .metrics-card .btn-group {
+    background-color: var(--surface-accent);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  }
+
+  .metrics-card .btn-outline-secondary {
+    color: var(--text-secondary);
+    border-color: transparent;
+    background-color: transparent;
+  }
+
+  .metrics-card .btn-outline-secondary:hover {
+    color: var(--text-primary);
+    background-color: var(--surface-hover);
+  }
+
+  .metrics-card .btn-outline-secondary.active {
+    color: var(--text-primary);
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
